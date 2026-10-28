@@ -1,4 +1,4 @@
-const WEBHOOK_URL = "https://discord.com/api/webhooks/1565052457808167062/Al7TygeHUX3w7SXBv64vowqn8wmBDmlSZ5e0P3D-C-TsS7uOYbW-57YJmjBTcZ1-aY6s";
+const WEBHOOK_URL = "https://discord-proxy.a41361709.workers.dev/";
 
 const ACCESS_CODE = "676767";
 
